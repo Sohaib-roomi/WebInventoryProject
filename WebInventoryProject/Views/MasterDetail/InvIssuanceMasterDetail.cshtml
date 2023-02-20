@@ -1,0 +1,548 @@
+﻿@using WebInventoryProject.ViewModel
+@model invIssuanceMasterDetailViewModel
+
+@{
+    ViewBag.Title = "InvIssuanceMasterDetail";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+<h2>InvIssuanceMasterDetail</h2>
+
+<div class="modal fade" id="newOrderModal">
+    <div class="modal-dialog modal-lg" style=" width : 900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+            </div>
+            <form id="NewOrderForm">
+                <div class="modal-body">
+
+                    <h5 style="color:#ff6347">Issuance Master</h5>
+                    <hr />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(m => m.invIssuanceMaster.issuanceId, new { htmlAttributes = new { @class = "form-control", @id = "issuanceId" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Issuance Date
+                            </label>
+
+                                @*<div class="col-md-4">
+                                    <input type="date" class="form-control" name="issuanceDate" id="issuanceDate" required="required" />
+
+                                </div>*@
+
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.issuanceDate, "{0:yyyy-MM-dd}", new { @type = "date", @id = "issuanceDate", @style = "width: 270px;", @readonly = "readonly", @disabled = "disabled" })
+                                </div>
+                            
+                            <label class="control-label col-md-2">
+                                Issuance No
+                            </label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.code, new { @id = "code", @readonly = "readonly", @disabled = "disabled", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Demand
+                            </label>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.invIssuanceDetail.demandId, new SelectList(Model.invDemandMaster, "demand_Id", "demandNo"), "Select Demand", new { @id = "demandId" })
+                                @Html.ValidationMessageFor(m => m.invIssuanceDetail.demandId, "", new { @class = "text-danger" })
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                From Branch
+                            </label>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.invIssuanceMaster.fromBranchId, new SelectList(Model.settingBranches, "branchId", "branchName"), "Select Branch", new { @id = "fromBranchId" })
+                                @Html.ValidationMessageFor(m => m.invIssuanceMaster.fromBranchId, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="control-label col-md-2">
+                                To Branch
+                            </label>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.invIssuanceMaster.toBranchId, new SelectList(Model.settingBranches, "branchId", "branchName"), "Select Branch", new { @id = "toBranchId" })
+                                @Html.ValidationMessageFor(m => m.invIssuanceMaster.toBranchId, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                From  Department
+                            </label>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.invIssuanceMaster.fromDepartmentId, new SelectList(Model.settingDepartments, "departmentId", "departmentName"), "Select Department", new { @id = "fromDepartmentId" })
+                                @Html.ValidationMessageFor(m => m.invIssuanceMaster.fromDepartmentId, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="control-label col-md-2">
+                                To Department
+                            </label>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.invIssuanceMaster.toDepartmentId, new SelectList(Model.settingDepartments, "departmentId", "departmentName"), "Select Department", new { @id = "toDepartmentId" })
+                                @Html.ValidationMessageFor(m => m.invIssuanceMaster.toDepartmentId, "", new { @class = "text-danger" })
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+
+                            <label class="control-label col-md-2">
+                                Recieve
+                            </label>
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.invIssuanceMaster.isReceive, new { htmlAttributes = new  { @id = "isReceive"  }})
+                            </div>
+
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invIssuanceMaster.dateTime, new { htmlAttributes = new { @class = "form-control", @id = "dateTime" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invIssuanceMaster.modifiedDate, new { htmlAttributes = new { @class = "form-control", @id = "modifiedDate" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invIssuanceMaster.modifiedBy, new { htmlAttributes = new { @class = "form-control", @id = "modifiedBy" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invIssuanceMaster.postUserId, new { htmlAttributes = new { @class = "form-control", @id = "workStation" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invIssuanceMaster.postDate, new { htmlAttributes = new { @class = "form-control", @id = "isPost" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invIssuanceMaster.workStation, new { htmlAttributes = new { @class = "form-control", @id = "isPost" } })
+                            </div>
+
+                        </div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <a style="margin-right:10px" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Direct Details</a>
+                            </div>
+                        </div>
+
+                        <h5 style="margin-top:10px;color:#ff6347">Issuance Details</h5>
+                        <hr />
+                        <div class="form-horizontal">
+                            <input type="hidden" id="OrderId" />
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Item
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invIssuanceDetail.itemId, new SelectList(Model.settingItems, "itemId", "itemName"), "Select Item", new { @id = "ItemId" })
+                                    @Html.ValidationMessageFor(m => m.invIssuanceDetail.itemId, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Unit
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invIssuanceDetail.unitId, new SelectList(Model.settingUnit, "unitId", "unitName"), "Select Unit", new { @id = "unitId" })
+                                    @Html.ValidationMessageFor(m => m.invIssuanceDetail.unitId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Quantity
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.invIssuanceDetail.qty, new { @id = "qty" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Rate
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.invIssuanceDetail.rate, new { @id = "rate" })
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2 pull-right">
+                                    <a id="addToList" class="btn btn-primary">Add To List</a>
+                                </div>
+                            </div>
+
+                            <div id="myModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Modal Header</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            @Html.Action("LoadDetailModal", "MasterDetail")
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" id="AddDirectDetail">Add</button>
+                                            <button type="button" class="btn btn-default" id="closed" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <table id="detailsTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:30%">Item</th>
+                                        <th style="width:10%">Unit</th>
+                                        <th style="width:25%">Qty</th>
+                                        <th style="width:25%">Rate</th>
+
+                                        <th style="width:10%;visibility:hidden;">itemid</th>
+                                        <th style="width:10%;visibility:hidden;">unitId</th>
+                                        <th style="width:10%;visibility:hidden;">demandId</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="saveDemand" type="submit" class="btn btn-danger">Save Order</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    $('#closed').click(function () {
+        alert('click hui gava');
+        $("#myModal").modal('hide');
+        $("#newOrderModal").modal('show');
+    });
+
+    $(document).ready(function () {
+
+        $("#newOrderModal").modal();
+        return false;
+
+
+    });
+
+    $('#addToList').click(function (e) {
+
+        e.preventDefault();
+        if ( $('#ItemId').val() == "" || $('#unitId').val() == "" || $('#qty').val() == "" || $('#rate').val() == "") return alert('Add Details Properly');
+
+        alert('i am here')
+        ItemName = $('#ItemId option:selected').text();
+        unitName = $('#unitId option:selected').text();
+        qty = $('#@Html.IdFor(m => m.invIssuanceDetail.qty)').val();
+        rate = $('#@Html.IdFor(m => m.invIssuanceDetail.rate)').val();
+        itemId = $('#ItemId option:selected').val();
+        unitId = $('#unitId option:selected').val();
+        demandId = $('#demandId option:selected').val();
+            detailsTableBody = $('#detailsTable tbody');
+
+        var GetProducts = '<tr><td>' + ItemName + '</td><td>' + unitName + '</td><td>' + qty + '</td><td>' + (parseFloat(rate) * parseInt(qty)) + '</td><td><a data-itemId="0" href="#" class="deleteItem" >Remove</a></td><td style="width:0%;visibility:hidden;">' + itemId + '</td><td style="width:0%;visibility:hidden;" >' + unitId + '</td><td style="width:0%;visibility:hidden;" >' + demandId + '</td></tr>'
+
+        detailsTableBody.append(GetProducts);
+        clearItem();
+
+    })
+    //For Adding Direct Demand
+    $('#AddDirectDetail').click(function () {
+        if ($('#qty').val() == "" || $('#Rate').val() == "") return;
+        $('.modal').css('overflow-y', 'auto');
+        var Alldetail = new Array();
+
+        $.each($('#tblItem tbody tr'), function () {
+            var getdetail = {};
+
+            getdetail.ItemName = $(this).find(".ItemName").val();
+            getdetail.unitName = $(this).find(".unitName").val();
+            getdetail.qty = $(this).find("td").eq(2).find('input[type=Number]').val();
+            getdetail.Rate = $(this).find("td").eq(3).find('input[type=Number]').val();
+            getdetail.itemId = $(this).find("td").eq(4).find('input[type=hidden]').val();
+            Alldetail.push(getdetail);
+        });
+
+
+        detailsTableBody = $('#detailsTable tbody');
+        var GetProducts;
+        if (Alldetail.length > 0) {
+            Alldetail.forEach(function (e) {
+                if (e.qty > 0 || e.Rate > 0) {
+                    GetProducts = '<tr><td>' + e.ItemName + '</td><td>' + e.unitName + '</td><td>' + e.qty + '</td><td>' + (parseFloat(e.Rate) * parseInt(e.qty)) + '</td><td><a data-itemId="0" href="#" class="deleteItem" >Remove</a></td><td style="width:0%;visibility:hidden;" >' + e.itemId + '</td><td style="width:0%;visibility:hidden;">' + e.unitId + '</td></tr>'
+
+
+                    console.log(GetProducts);
+                    detailsTableBody.append(GetProducts);
+                }
+            });
+
+        }
+        console.log(Alldetail);
+
+        //to close modal after adding items to the List
+        $("#myModal").modal('hide');
+
+    })
+
+    $(document).on('click', 'a.deleteItem', function () {
+        $(this).parents('tr').css("background-color", "red").fadeOut(800, function () {
+            $(this).remove('tr');
+        })
+    })
+
+    //After Add A New Order In The List, Clear Clean The Form For Add More Order.
+    function clearItem() {
+
+        $('#@Html.IdFor(m => m.invIssuanceDetail.qty)').val('');
+        $('#@Html.IdFor(m => m.invIssuanceDetail.rate)').val('');
+        $("#ItemId").val('');
+        $("#unitId").val('');
+        $("#demandId").val('');
+    }
+    // After Add A New Order In The List, If You Want, You Can Remove It.
+    // by NOOR
+    function saveDemand(data) {
+        return $.ajax
+            ({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/MasterDetail/InvIssuanceMasterDetail",
+                data: data,
+                success: function (result) {
+                    Confirm();
+                    window.location.replace("/MasterDetail/IndexInvIssuance");
+                },
+                error: function () {
+                    alert('Error!');
+                },
+
+            });
+    }
+    function Confirm() {
+        alert('i am at confirm function')
+        var input = $("<input />");
+        input.attr("type", "hidden").attr("name", "confirm_value");
+        if (confirm("Do you want to Proceed data?")) {
+            input.val("Yes");
+            //start
+                          var IssuanceDetailsArray = [];
+            IssuanceDetailsArray.length = 0;
+               $.each($('#detailsTable tbody tr'), function () {
+            IssuanceDetailsArray.push({
+                qty: $(this).find('td:eq(2)').html(),
+                rate: $(this).find('td:eq(3)').html(),
+                itemId: $(this).find('td:eq(5)').html(),
+                unitId: $(this).find('td:eq(6)').html(),
+                demandId: $(this).find('td:eq(7)').html(),
+
+            });
+        });
+        var IssunaceMasterArray =
+        {
+            issuanceId : $('#@Html.IdFor(m => m.invIssuanceMaster.issuanceId)').val(),
+            issuanceDate: $('#issuanceDate').val(),
+            issuanceNo: $('#code').val(),
+            fromBranchId: $('#fromBranchId option:selected').val(),
+            toBranchId: $('#toBranchId option:selected').val(),
+            toDepartmentId: $('#toDepartmentId option:selected').val(),
+            fromDepartmentId: $('#fromDepartmentId option:selected').val(),
+            isReceive: $('#isReceive').prop('checked'),
+        }
+
+
+
+        var IssunaceOrderMasterArray = new Array();
+        IssunaceOrderMasterArray = IssunaceMasterArray;
+        var IssunaceOrderDetailArray = new Array();
+        IssunaceOrderDetailArray = IssuanceDetailsArray;
+
+        var data = JSON.stringify
+            ({
+                MasterArray: IssunaceOrderMasterArray,
+                DetailArray: IssunaceOrderDetailArray,
+            });
+
+            //end
+
+            $.ajax
+                ({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: "/MasterDetail/InvIssuanceMasterDetail",
+                    data: data,
+                    success: function (result) {
+                        window.location.replace("/MasterDetail/IndexInvIssuance");
+                    },
+                    error: function () {
+                        alert('Error!');
+                    },
+
+                });
+        }
+        else {
+            input.val("No");
+        }
+        $("form")[0].appendChild(input[0]);
+
+
+    };
+    //Collect Multiple Order List For Pass To Controller //BY ARTICLE
+
+
+    //pass data from view to controller BY NOOR
+    $('#saveDemand').click(function (e) {
+        if ($('#issuanceDate').val() == "" || $('#issuanceNo').val() == "" || $('#fromBranchId').val() == "" || $('#toBranchId').val() == "", $('#fromDepartmentId').val() == "", $('#toDepartmentId').val() == "" ) return;
+        e.preventDefault();
+        var IssuanceMasterArray = {};
+        if (IssuanceMasterArray.length = 0)
+        {
+            return false;
+        }
+
+              var IssuanceDetailsArray = [];
+            IssuanceDetailsArray.length = 0;
+               $.each($('#detailsTable tbody tr'), function () {
+            IssuanceDetailsArray.push({
+                qty: $(this).find('td:eq(2)').html(),
+                rate: $(this).find('td:eq(3)').html(),
+                itemId: $(this).find('td:eq(5)').html(),
+                unitId: $(this).find('td:eq(6)').html(),
+                demandId: $(this).find('td:eq(7)').html(),
+
+            });
+        });
+        var IssunaceMasterArray =
+        {
+            issuanceId : $('#@Html.IdFor(m => m.invIssuanceMaster.issuanceId)').val(),
+            issuanceDate: $('#issuanceDate').val(),
+            issuanceNo: $('#code').val(),
+            fromBranchId: $('#fromBranchId option:selected').val(),
+            toBranchId: $('#toBranchId option:selected').val(),
+            toDepartmentId: $('#toDepartmentId option:selected').val(),
+            fromDepartmentId: $('#fromDepartmentId option:selected').val(),
+            isReceive: $('#isReceive').prop('checked'),
+        }
+
+
+
+        var IssunaceOrderMasterArray = new Array();
+        IssunaceOrderMasterArray = IssunaceMasterArray;
+        var IssunaceOrderDetailArray = new Array();
+        IssunaceOrderDetailArray = IssuanceDetailsArray;
+
+        var data = JSON.stringify
+            ({
+                MasterArray: IssunaceOrderMasterArray,
+                DetailArray: IssunaceOrderDetailArray,
+            });
+
+        $.when(saveDemand(data)).then(function (response) {
+            console.log(response);
+        }).fail(function (err) {
+            console.log(err);
+        });
+
+    });
+
+                            //After Click Save Button Pass All Data View To Controller For Save Database
+
+    //auto scroll
+
+
+</script>
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+    }
+
+        .card > hr {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .card > .list-group:first-child .list-group-item:first-child {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+        }
+
+        .card > .list-group:last-child .list-group-item:last-child {
+            border-bottom-right-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+    .card-body {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        margin-bottom: 0.75rem;
+    }
+
+    .card-subtitle {
+        margin-top: -0.375rem;
+        margin-bottom: 0;
+    }
+
+    .card-text:last-child {
+        margin-bottom: 0;
+    }
+
+    .card-link:hover {
+        text-decoration: none;
+    }
+
+    .card-link + .card-link {
+        margin-left: 1.25rem;
+    }
+
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+        .card-header:first-child {
+            border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+        }
+
+        .card-header + .list-group .list-group-item:first-child {
+            border-top: 0;
+        }
+</style>
+

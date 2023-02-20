@@ -1,0 +1,335 @@
+﻿@using WebInventoryProject.ViewModel
+@model InvRecipeViewModel
+@{
+    ViewBag.Title = "InvRecipeMasterDetail";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+<div class="modal fade" id="newOrderModal">
+    <div class="modal-dialog modal-lg" style=" width : 900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Add New Order</h4>
+            </div>
+            <form id="NewOrderForm">
+                <div class="modal-body">
+                    @*Customer Details*@
+                    <h5 style="color:#ff6347">Recipe</h5>
+                    <hr />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(m => m.invRecipeMaster.RecipeId, new { htmlAttributes = new { @class = "form-control", @id = "RecipeId" } })
+                            </div>
+                        </div>
+                        
+
+                        <div class="form-group">
+
+                            <label class="control-label col-md-2">
+                                Date
+                            </label>
+                            @if (Model.UserType == "Admin")
+                            {
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" name="dateTime" id="dateTime" />
+                                </div>
+                            }
+                            else
+                            {
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.dateTime , "{0:yyyy-MM-dd}", new { @type="date" ,@id = "dateTime", @style = "width: 270px;", @readonly = "readonly", @disabled = "disabled" })           
+                        </div>
+                            }
+                            <label class="control-label col-md-2">
+                                Comments
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="Comments" id="Comments" />
+                                @*@Html.EditorFor(model => model.invPurchaseOrderMaster.poNo, new { @id = "poNo" })*@
+                            </div>
+                        </div>
+                        
+                       
+                        <div class="form-group">
+                         
+                            <label class="control-label col-md-2">
+                                Sub Recipe
+                            </label>
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.invRecipeMaster.isSubRecipe, new { @id = "isSubRecipe" })
+                            </div>
+
+                            
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invRecipeMaster.modifiedDate, new { htmlAttributes = new { @class = "form-control", @id = "modifiedDate" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invRecipeMaster.modifiedBy, new { htmlAttributes = new { @class = "form-control", @id = "modifiedBy" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invRecipeMaster.Workstation, new { htmlAttributes = new { @class = "form-control", @id = "Workstation" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invRecipeMaster.userId, new { htmlAttributes = new { @class = "form-control", @id = "userId" } })
+                            </div>
+                        </div>
+
+                        @*Demand Details*@
+                        <h5 style="margin-top:10px;color:#ff6347">Recipe Details</h5>
+                        <hr />
+                        <div class="form-horizontal">
+                            <input type="hidden" id="OrderId" />
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Ingredient
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invRecipeDetail.IngredientId, new SelectList(Model.settingItem, "itemId", "itemName"), "Select Item", new { @id = "ItemId", @style = "width: 270px;" })
+                                    @Html.ValidationMessageFor(m => m.invRecipeDetail.IngredientId, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Quantity
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="number" class="form-control" name="Qty" id="Qty" />
+                                    @*@Html.EditorFor(model => model.invPurchaseOrderDetail.qty, new { @id = "qty" })*@
+                                </div>
+                               
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2 pull-right">
+                                    <a id="addToList" class="btn btn-primary">Add To List</a>
+                                </div>
+                            </div>
+
+                           
+
+                            
+                            
+                            <table id="detailsTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:30%">Item</th>
+                                        <th style="width:10%">Qty</th>                                        
+                                        <th style="width:10%;visibility:hidden;">itemid</th>
+                                       
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="saveDemand"  class="btn btn-danger">Save</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $("#newOrderModal").modal();
+        return false;
+    });
+
+
+    $('#addToList').click(function (e)
+    {
+
+        e.preventDefault();
+
+        if ($('#ItemId').val() == ""  || $('#Qty').val() == "") return;
+        alert('i am here')
+
+        ItemName = $('#ItemId option:selected').text();      
+        Qty = $('#Qty').val();
+        itemId = $('#ItemId option:selected').val();
+      
+        detailsTableBody = $('#detailsTable tbody');
+        
+        //var GetProducts = '<tr><td>' + ItemName + '<td><td>' + Qty + '</td><td style="width:0%;visibility:hidden;">' + itemId + '</td><td><a data-itemId="0" href="#" class="deleteItem" >Remove</a></td></tr>'
+        var GetProducts = '<tr><td>' + ItemName + '</td><td>' + Qty + '</td><td style="width:0%;visibility:hidden;">' + itemId + '</td><td><a data-itemId="0" href="#" class="deleteItem" >Remove</a></td></tr>'
+        detailsTableBody.append(GetProducts);
+        clearItems();
+
+    })
+
+
+    $(document).on('click', 'a.deleteItem', function () {
+        $(this).parents('tr').css("background-color", "red").fadeOut(800, function () {
+            $(this).remove('tr');
+        })
+    })
+
+    //After Add A New Order In The List, Clear Clean The Form For Add More Order.
+    function clearItems() {
+
+        $('#Qty').val('');
+        $("#ItemId").val('');
+    }
+    // After Add A New Order In The List, If You Want, You Can Remove It.
+    // by NOOR
+    function saveDemand(data) {
+        return $.ajax
+            ({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/MasterDetail/InvRecipeMasterDetail",
+                data: data,
+                success: function (result) {
+                    window.location.replace("/MasterDetail/IndexInvRecipe")
+                },
+                error: function () {
+                    alert('Error!');
+                },
+
+            });
+    }
+
+    //Collect Multiple Order List For Pass To Controller //BY ARTICLE
+
+
+    //pass data from view to controller BY NOOR
+    $('#saveDemand').click(function (e) {
+        if ($('#dateTime').val() == "" || $('#Comments').val() == "") return;
+        e.preventDefault();
+        var RecipeDetailArray = [];
+        RecipeDetailArray.length = 0;
+
+        $.each($('#detailsTable tbody tr'), function () {
+            RecipeDetailArray.push({
+                Qty: $(this).find('td:eq(1)').html(),             
+                IngredientId: $(this).find('td:eq(2)').html(),
+                
+                
+            });
+        });
+
+        var RecipeMasterArray =
+        {
+            RecipeId: $('#RecipeId').val(),
+            Comments: $('#Comments').val(),
+            Workstation: $('#Workstation').val(),
+            isSubRecipe: $('#isSubRecipe').val(),
+            dateTime: $('#dateTime').val(),
+
+        }
+        var RecipeMasterCA = new Array();
+        RecipeMasterCA = RecipeMasterArray;
+
+       
+        var Recipe_DetailArrayCA = new Array();
+        Recipe_DetailArrayCA = RecipeDetailArray;
+
+        var data = JSON.stringify
+            ({
+                RecipeMasterArray: RecipeMasterCA,
+                RecipeDetailArray: Recipe_DetailArrayCA,
+            });
+
+        $.when(saveDemand(data)).then(function (response) {
+            console.log(response);
+        }).fail(function (err) {
+            console.log(err);
+        });
+    });
+
+                            //After Click Save Button Pass All Data View To Controller For Save Database
+
+
+
+</script>
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+    }
+
+        .card > hr {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .card > .list-group:first-child .list-group-item:first-child {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+        }
+
+        .card > .list-group:last-child .list-group-item:last-child {
+            border-bottom-right-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+    .card-body {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        margin-bottom: 0.75rem;
+    }
+
+    .card-subtitle {
+        margin-top: -0.375rem;
+        margin-bottom: 0;
+    }
+
+    .card-text:last-child {
+        margin-bottom: 0;
+    }
+
+    .card-link:hover {
+        text-decoration: none;
+    }
+
+    .card-link + .card-link {
+        margin-left: 1.25rem;
+    }
+
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+        .card-header:first-child {
+            border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+        }
+
+        .card-header + .list-group .list-group-item:first-child {
+            border-top: 0;
+        }
+</style>
+

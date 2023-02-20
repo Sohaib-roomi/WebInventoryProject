@@ -1,0 +1,456 @@
+﻿@using WebInventoryProject.ViewModel
+@model invWastageMasterDetailViewModel
+@{
+    ViewBag.Title = "InvwastageMasterDetail";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+<h2>InvwastageMasterDetail</h2>
+
+
+<div class="modal fade" id="newOrderModal">
+    <div class="modal-dialog modal-lg" style=" width : 900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+            </div>
+            <form id="NewOrderForm">
+                <div class="modal-body">
+
+                    <h5 style="color:#ff6347">Wastage Master</h5>
+                    <hr />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(m => m.invWastMaster.wastageId, new { htmlAttributes = new { @class = "form-control", @id = "wastageId" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Wastage Date
+                            </label>
+                            @if (Model.UserType == "Admin")
+                            {
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" name="wastageDate" id="wastageDate" required="required" />
+
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.wastageDate, "{0:yyyy-MM-dd}", new { @type = "date", @id = "wastageDate", @style = "width: 270px;", @readonly = "readonly", @disabled = "disabled" })
+                                </div>
+                            }
+                            <label class="control-label col-md-2">
+                                Wastage No
+                            </label>
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.invWastMaster.wastageNo, new { htmlAttributes = new { @id = "wastageNo", required = "required", @type = "number", @style = "width: 270px;" } })
+                            </div>
+                        </div>
+                        @if (Model.UserType == "Admin")
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Branch
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invWastMaster.branchId, new SelectList(Model.settingBranches, "branchId", "branchName"), "Select Branch", new { @id = "branchId", @style = "width: 270px;" })
+                                    @Html.ValidationMessageFor(m => m.invWastMaster.branchId, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Department
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invWastMaster.departmentId, new SelectList(Model.settingDepartments, "departmentId", "departmentName"), "Select Department", new { @id = "departmentId", @style = "width: 270px;" })
+                                    @Html.ValidationMessageFor(m => m.invWastMaster.departmentId, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Branch
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.settingBr.branchName, new { htmlAttributes = new { disabled = "disabled", @readonly = "readonly", @id = "branchId", @style = "width: 270px;" } })
+                                    @Html.ValidationMessageFor(m => m.settingBr.branchName, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Department
+                                </label>
+
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.settingDept.departmentName, new { htmlAttributes = new { disabled = "disabled", @readonly = "readonly", @id = "departmentId", @style = "width: 270px;" } })
+                                    @Html.ValidationMessageFor(m => m.settingDept.departmentName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        }
+                        <div class="form-group">
+
+
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invWastMaster.dateTime, new { htmlAttributes = new { @class = "form-control", @id = "dateTime" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invWastMaster.modifiedDate, new { htmlAttributes = new { @class = "form-control", @id = "modifiedDate" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invWastMaster.modifiedBy, new { htmlAttributes = new { @class = "form-control", @id = "modifiedBy" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invWastMaster.postUserId, new { htmlAttributes = new { @class = "form-control", @id = "workStation" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invWastMaster.postDate, new { htmlAttributes = new { @class = "form-control", @id = "isPost" } })
+                            </div>
+                        </div>
+
+
+                        <h5 style="margin-top:10px;color:#ff6347">Wastage Details</h5>
+                        <hr />
+                        <div class="form-horizontal">
+                            <input type="hidden" id="OrderId" />
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Item
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invWastDetail.itemId, new SelectList(Model.settingItems, "itemId", "itemName"), "Select Item", new { @id = "ItemId", @style = "width: 270px;" })
+                                    @Html.ValidationMessageFor(m => m.invWastDetail.itemId, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Unit
+                                </label>    
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invWastDetail.unitId, new SelectList(Model.settingUnit, "unitId", "unitName"), "Select Unit", new { @id = "unitId", @style = "width: 270px;" })
+                                    @Html.ValidationMessageFor(m => m.invWastDetail.unitId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Quantity
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.invWastDetail.qty, new {htmlAttributes = new { @id = "qty", @type = "number", @style = "width: 270px;" } })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Rate
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.invWastDetail.rate, new {htmlAttributes = new { @id = "rate", @type = "number", @style = "width: 270px;" }})
+                                </div>
+                                <div class="col-md-2 pull-right">
+                                    <a id="addToList" class="btn btn-primary">Add To List</a>
+                                </div>
+                            </div>
+
+                            <table id="detailsTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:30%">Item</th>
+                                        <th style="width:10%">Unit</th>
+                                        <th style="width:25%">Qty</th>
+                                        <th style="width:25%">Rate</th>
+
+                                        <th style="width:10%;visibility:hidden;">itemid</th>
+                                        <th style="width:10%;visibility:hidden;">unitId</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="saveDemand" type="submit" class="btn btn-danger">Save Order</button>
+                    </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#newOrderModal").modal();
+        return false;
+    });
+
+
+    $('#addToList').click(function (e) {
+
+        e.preventDefault();
+        if ($('#ItemId').val() == "" || $('#unitId').val() == "" || $('#qty').val() == "" || $('#rate').val() == "") return;
+        alert('i am here')
+        ItemName = $('#ItemId option:selected').text();
+        unitName = $('#unitId option:selected').text();
+        qty = $('#qty').val();
+        rate = $('#rate').val();
+        itemId = $('#ItemId option:selected').val();
+        unitId = $('#unitId option:selected').val();
+
+            detailsTableBody = $('#detailsTable tbody');
+
+        var GetProducts = '<tr><td>' + ItemName + '</td><td>' + unitName + '</td><td>' + qty + '</td><td>' + (parseFloat(rate) * parseInt(qty)) + '</td><td style="width:0%;visibility:hidden;">' + itemId + '</td><td style="width:0%;visibility:hidden;" >' + unitId + '</td><td><a data-itemId="0" href="#" class="deleteItem" >Remove</a></td></tr>'
+
+        detailsTableBody.append(GetProducts);
+        clearItem();
+
+    })
+
+
+    $(document).on('click', 'a.deleteItem', function () {
+        $(this).parents('tr').css("background-color", "red").fadeOut(800, function () {
+            $(this).remove('tr');
+        })
+    })
+
+    //After Add A New Order In The List, Clear Clean The Form For Add More Order.
+    function clearItem() {
+
+        $('#@Html.IdFor(m => m.invWastDetail.qty)').val('');
+        $('#@Html.IdFor(m => m.invWastDetail.rate)').val('');
+        $("#ItemId").val('');
+        $("#unitId").val('');
+        $("#qty").val('');
+        $("#rate").val('');
+    }
+    // After Add A New Order In The List, If You Want, You Can Remove It.
+    // by NOOR
+    function saveDemand(data) {
+        return $.ajax
+            ({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/MasterDetail/InvwastageMasterDetail",
+                data: data,
+                success: function (result) {
+                    Confirm();
+                    window.location.replace("/MasterDetail/IndexInvwastage");
+                },
+                error: function () {
+                    alert('Error!');
+                },
+
+            });
+    }
+
+    //Collect Multiple Order List For Pass To Controller //BY ARTICLE
+     function Confirm() {
+        alert('i am at confirm function')
+        var input = $("<input />");
+        input.attr("type", "hidden").attr("name", "confirm_value");
+        if (confirm("Do you want to Proceed data?")) {
+            input.val("Yes");
+            var wastageDetailsArray = [];
+            wastageDetailsArray.length = 0;
+               $.each($('#detailsTable tbody tr'), function () {
+                   wastageDetailsArray.push({
+                qty: $(this).find('td:eq(2)').html(),
+                rate: $(this).find('td:eq(3)').html(),
+                itemId: $(this).find('td:eq(4)').html(),
+                unitId: $(this).find('td:eq(5)').html(),
+
+
+            });
+        });
+        var wastageMasterArray =
+        {
+            wastageId : $('#@Html.IdFor(m => m.invWastMaster.wastageId)').val(),
+            wastageDate: $('#wastageDate').val(),
+            wastageNo: $('#wastageNo').val(),
+            branchId: $('#branchId option:selected').val(),
+            departmentId: $('#departmentId option:selected').val(),
+
+        }
+
+        var wastageOrderMasterArray = new Array();
+            wastageOrderMasterArray = wastageMasterArray;
+        var wastageOrderDetailArray = new Array();
+            wastageOrderDetailArray = wastageDetailsArray;
+
+        var data = JSON.stringify
+            ({
+                MasterArray: wastageOrderMasterArray,
+                DetailArray: wastageOrderDetailArray,
+            });
+
+
+            $.ajax
+                ({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: "/MasterDetail/InvwastageMasterDetail",
+                    data: data,
+                    success: function (result) {
+                        window.location.replace("/MasterDetail/IndexInvwastage");
+                    },
+                    error: function () {
+                        alert('Error!');
+                    },
+
+                });
+        }
+        else {
+            input.val("No");
+        }
+        $("form")[0].appendChild(input[0]);
+
+
+    };
+
+    //pass data from view to controller BY NOOR
+    $('#saveDemand').click(function (e) {
+        if ($('#wastageDate').val() == "" || $('#wastageNo').val() == "" || $('#branchId').val() == "" ||  $('#departmentId').val() == "" ) return;
+        e.preventDefault();
+        var wastageMasterArray = {};
+        if (wastageMasterArray.length = 0)
+        {
+            return false;
+        }
+        var wastageDetailsArray = [];
+        wastageDetailsArray.length = 0;
+        $.each($('#detailsTable tbody tr'), function () {
+            wastageDetailsArray.push({
+                qty: $(this).find('td:eq(2)').html(),
+                rate: $(this).find('td:eq(3)').html(),
+                itemId: $(this).find('td:eq(4)').html(),
+                unitId: $(this).find('td:eq(5)').html(),
+
+
+            });
+
+        });
+     var wastageMasterArray =
+        {
+         wastageId: $('#@Html.IdFor(m => m.invWastMaster.wastageId)').val(),
+         wastageDate: $('#wastageDate').val(),
+         wastageNo: $('#wastageNo').val(),
+         branchId: $('#branchId option:selected').val(),
+         departmentId: $('#departmentId option:selected').val(),
+
+        }
+
+    
+        
+        alert('wastageDate'+ wastageDate);
+        var wastageOrderMasterArray = new Array();
+            wastageOrderMasterArray = wastageMasterArray;
+        var wastageOrderDetailArray = new Array();
+            wastageOrderDetailArray = wastageDetailsArray;
+
+        var data = JSON.stringify
+            ({
+                MasterArray: wastageOrderMasterArray,
+                DetailArray: wastageOrderDetailArray,
+            });
+       
+        $.when(saveDemand(data)).then(function (response) {
+            console.log(response);
+        }).fail(function (err) {
+            console.log(err);
+        });
+
+    });
+
+    //After Click Save Button Pass All Data View To Controller For Save Database
+
+
+
+</script>
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+    }
+
+        .card > hr {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .card > .list-group:first-child .list-group-item:first-child {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+        }
+
+        .card > .list-group:last-child .list-group-item:last-child {
+            border-bottom-right-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+    .card-body {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        margin-bottom: 0.75rem;
+    }
+
+    .card-subtitle {
+        margin-top: -0.375rem;
+        margin-bottom: 0;
+    }
+
+    .card-text:last-child {
+        margin-bottom: 0;
+    }
+
+    .card-link:hover {
+        text-decoration: none;
+    }
+
+    .card-link + .card-link {
+        margin-left: 1.25rem;
+    }
+
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+        .card-header:first-child {
+            border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+        }
+
+        .card-header + .list-group .list-group-item:first-child {
+            border-top: 0;
+        }
+</style>

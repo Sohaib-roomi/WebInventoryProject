@@ -1,0 +1,59 @@
+﻿@using WebInventoryProject.ViewModel
+@model InvGRNViewModel
+<div class="pull-right">
+    <label>Total Tax :</label>
+    <input type="text" id="result" name="Totaltax" class="form-control" />
+    <label>Total Discount :</label>
+    <input type="text" id="result1" name="discount" class="form-control" />
+    <label>Total Amount :</label>
+    <input type="text" id="result2" name="totalAmount" class="form-control" />
+</div>
+<table id="myTable">
+    <thead>
+        <tr>
+            <td>Item|</td>
+            <td>Unit|</td>
+            <td>Qty|</td>
+            <td>Rate|</td>
+            <td>Actual Rate|</td>
+            <td>Tax|</td>
+            <td>Discount|</td>
+            <td>Final Rate|</td>
+
+
+
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @{var countval = 0;}
+        @foreach (var Item in Model.invGRNViewModels)
+        {
+        <p style="visibility:hidden;">@(++countval)</p>
+            
+        <tr class="myrow">
+
+            <td style="max-width:185px;">@Html.EditorFor(x => Item.itemName, new { htmlAttributes = new { disabled = "disabled", @readonly = "readonly" } })</td>
+            <td style="max-width:185px;">@Html.EditorFor(x => Item.unitName, new { htmlAttributes = new { @colspan = "1", disabled = "disabled", @readonly = "readonly" } })</td>
+
+
+            <td style="max-width:65px;"><input type="number" onkeyup="add2();" name="qty" id="qty_@(countval)" data-row="@(countval)" class="rom_num3"  /></td>
+            <td style="max-width:65px;"><input type="number" onkeyup="add3();" name="rate" id="rate_@(countval)" data-row="@(countval)" class="rom_num4"  /></td>
+            <td style="max-width:65px;"><input type="number" name="actualRate" id="actualRate" /></td>
+            <td style="max-width:65px;"><input type="number" onkeyup="add();" data-row="@(countval)" name="tax" id="tax_@(countval)" class="row_num" /></td>
+            <td style="max-width:65px;"><input type="number" onkeyup="add1();" data-row="@(countval)" name="discount" id="discount_@(countval)" class="row_num1" /></td>
+            <td style="max-width:65px;"><input type="number" name="finalRate" id="finalRate" /></td>
+
+
+
+            <td style="visibility: hidden;">@Html.EditorFor(x => Item.itemId, new { htmlAttributes = new { @id = "itemId" } })</td>
+            <td style="visibility: hidden;">@Html.EditorFor(x => Item.unitId, new { htmlAttributes = new { @id = "unitId" } })</td>
+
+
+
+
+        </tr>
+        }
+    </tbody>
+</table>

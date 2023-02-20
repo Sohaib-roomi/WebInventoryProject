@@ -1,0 +1,440 @@
+﻿@using WebInventoryProject.ViewModel
+@model InvDiscardMasterDetailViewModel
+@{
+    ViewBag.Title = "InvDiscardMasterDetail";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+<h2>InvDiscardMasterDetail</h2>
+
+<div class="modal fade" id="newOrderModal">
+    <div class="modal-dialog modal-lg" style=" width : 900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Add New Order</h4>
+            </div>
+            <form id="NewOrderForm">
+                <div class="modal-body">
+                    @*Customer Details*@
+                    <h5 style="color:#ff6347">Discard</h5>
+                    <hr />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(m => m.invDiscardMaster.discardId, new { htmlAttributes = new { @class = "form-control", @id = "discardId" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Date
+                            </label>
+                            @if (Model.UserType == "Admin")
+                            {
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" name="discardDate" id="discardDate" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.discardDate, "{0:yyyy-MM-dd}", new { @type = "date", @id = "discardDate", @style = "width: 270px;", @readonly = "readonly", @disabled = "disabled" })
+                                </div>
+                            }
+                            <label class="control-label col-md-2">
+                                Discard No
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="discardNo" id="discardNo" />
+                                @*@Html.EditorFor(model => model.invPurchaseOrderMaster.poNo, new { @id = "poNo" })*@
+                            </div>
+                        </div>
+                        @if (Model.UserType == "Admin")
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Branch
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invDiscardMaster.branchId, new SelectList(Model.settingBranch, "branchId", "branchName"), "Select Branch", new { @id = "branchId", @style = "width: 270px;" })
+                                    @Html.ValidationMessageFor(m => m.invDiscardMaster.branchId, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Department
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invDiscardMaster.departmentId, new SelectList(Model.settingDepartment, "departmentId", "departmentName"), "Select Department", new { @id = "departmentId", @style = "width: 270px;" })
+                                    @Html.ValidationMessageFor(m => m.invDiscardMaster.departmentId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Branch
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.settingBr.branchName, new { htmlAttributes = new { disabled = "disabled", @readonly = "readonly", @id = "branchId", @style = "width: 270px;" } })
+                                    @Html.ValidationMessageFor(m => m.settingBr.branchName, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Department
+                                </label>
+
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.settingDept.departmentName, new { htmlAttributes = new { disabled = "disabled", @readonly = "readonly", @id = "departmentId", @style = "width: 270px;" } })
+                                    @Html.ValidationMessageFor(m => m.settingDept.departmentName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        }
+                        <div class="form-group">
+
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invDiscardMaster.modifiedDate, new { htmlAttributes = new { @class = "form-control", @id = "modifiedDate" } })
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invDiscardMaster.modifiedBy, new { htmlAttributes = new { @class = "form-control", @id = "modifiedBy" } })
+                            </div>
+
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invDiscardMaster.userId, new { htmlAttributes = new { @class = "form-control", @id = "userId" } })
+                            </div>
+                        </div>
+
+                        @*Demand Details*@
+                        <h5 style="margin-top:10px;color:#ff6347">Discard Details</h5>
+                        <hr />
+                        <div class="form-horizontal">
+                            <input type="hidden" id="OrderId" />
+                            <div class="form-group">
+
+                                <label class="control-label col-md-2">
+                                    Item
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invDiscardDetail.itemId, new SelectList(Model.settingItem, "itemId", "itemName"), "Select Item", new { @id = "itemId",@style = "width: 270px;"  })
+                                    @Html.ValidationMessageFor(m => m.invDiscardDetail.itemId, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Quantity
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="number" class="form-control" name="qty" id="qty" />
+                                    @*@Html.EditorFor(model => model.invPurchaseOrderDetail.qty, new { @id = "qty" })*@
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Desc
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="desc" id="desc" />
+                                </div>
+
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2 pull-right">
+                                    <a id="addToList" class="btn btn-primary">Add To List</a>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <table id="detailsTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:30%">Item</th>
+                                        <th style="width:10%">Qty</th>
+                                        <th style="width:10%">Desc</th>
+                                        <th style="width:10%;visibility:hidden;">itemid</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="saveDemand" class="btn btn-danger">Save</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $("#newOrderModal").modal();
+        return false;
+    });
+
+
+    //get the values and save it in the List
+    $('#addToList').click(function (e) {
+
+        e.preventDefault();
+        if ($('#ItemId').val() == "" || $('#qty').val() == "" || $('#desc').val() == "") {
+            alert("Please Fill the Required Fields");
+            return
+        };
+
+
+        ItemName = $('#itemId :selected').text();
+        qty = $('#qty').val();
+        desc = $('#desc').val();
+        itemId = $('#itemId').val();
+               
+        getvalues = $('#detailsTable tbody');
+       
+        var trdata = '<tr><td>' + ItemName + '</td><td>' + qty + '</td><td>' + desc + '</td><td style="visibility:hidden">' + itemId + '</td><td><a data-itemId="0" href="#" class="deleteItem" >Remove</a></td></tr>'
+        getvalues.append(trdata);
+        clearItems();
+    })
+
+    $(document).on('click', 'a.deleteItem', function () {
+        $(this).parents('tr').css("background-color", "red").fadeOut(800, function () {
+            $(this).remove('tr');
+        })
+    })
+
+    //After Add A New Order In The List, Clear Clean The Form For Add More Order.
+    function clearItems()
+    {
+        $("#itemId").val('');
+        $('#qty').val('');
+        $("#desc").val('');
+    }
+    // After Add A New Order In The List, If You Want, You Can Remove It.
+    // by NOOR
+    function saveDemand(data) {
+        return $.ajax
+            ({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/MasterDetail/InvDiscardMasterDetail",
+                data: data,
+                success: function (result) {
+                    window.location.replace("/MasterDetail/IndexInvDiscard")
+                    Confirm();
+                },
+                error: function () {
+                    alert('Error!');
+                },
+
+            });
+    }
+
+    //Collect Multiple Order List For Pass To Controller //BY ARTICLE
+
+
+    //pass data from view to controller BY NOOR
+    $('#saveDemand').click(function (e) {
+        if ($('#discardDate').val() == "" || $('#discardNo').val() == "" || $('#branchId').val() == "" || $('#departmentId').val() == "") return;
+        e.preventDefault();
+        var DiscardDetailArray = [];
+        DiscardDetailArray.length = 0;
+
+        $.each($('#detailsTable tbody tr'), function () {
+            DiscardDetailArray.push({
+                itemId: $(this).find('td:eq(3)').html(),
+                qty: $(this).find('td:eq(1)').html(),
+                desc: $(this).find('td:eq(2)').html(),                               
+            });
+            
+        });
+        console.log(DiscardDetailArray);
+        var DiscardMasterArray =
+        {
+            discardDate: $('#discardDate').val(),
+            discardNo: $('#discardNo').val(),
+            branchId: $('#branchId option:selected').val(),
+            departmentId: $('#departmentId option:selected').val(),
+        }
+        console.log(DiscardMasterArray);
+        var DiscardMasterCA = new Array();
+        DiscardMasterCA = DiscardMasterArray;
+
+
+        var Discard_DetailArrayCA = new Array();
+        Discard_DetailArrayCA = DiscardDetailArray;
+
+        var data = JSON.stringify
+            ({
+                MasterArray: DiscardMasterCA,
+                DetailArray: Discard_DetailArrayCA,
+            });
+
+        $.when(saveDemand(data)).then(function (response) {
+            console.log(response);
+        }).fail(function (err) {
+            console.log(err);
+        });
+    });
+
+   //After Click Save Button Pass All Data View To Controller For Save Database
+    //proceed
+     function Confirm() {
+        alert('i am at confirm function')
+        var input = $("<input />");
+        input.attr("type", "hidden").attr("name", "confirm_value");
+        if (confirm("Do you want to Proceed data?")) {
+            input.val("Yes");
+            var DiscardDetailArray = [];
+            DiscardDetailArray.length = 0;
+
+            $.each($('#detailsTable tbody tr'), function () {
+                DiscardDetailArray.push({
+                    qty: $(this).find('td:eq(1)').html(),
+                    desc: $(this).find('td:eq(2)').html(),
+                    itemId: $(this).find('td:eq(3)').html(),
+
+
+                });
+            });
+
+            var DiscardMasterArray =
+            {
+                discardDate: $('#discardDate').val(),
+                discardNo: $('#discardNo').val(),
+                branchId: $('#branchId option:selected').val(),
+                departmentId: $('#departmentId option:selected').val(),
+            }
+
+            var DiscardMasterCA = new Array();
+            DiscardMasterCA = DiscardMasterArray;
+
+
+            var Discard_DetailArrayCA = new Array();
+            Discard_DetailArrayCA = DiscardDetailArray;
+
+            var data = JSON.stringify
+                ({
+                    MasterArray: DiscardMasterCA,
+                    DetailforProceed: Discard_DetailArrayCA,
+                });
+
+
+            $.ajax
+                ({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: "/MasterDetail/InvDiscardMasterDetail",
+                    data: data,
+                    success: function (result) {
+                        window.location.replace("/MasterDetail/IndexInvDiscard");
+                    },
+                    error: function () {
+                        alert('Error!');
+                    },
+
+                });
+        }
+        else {
+            input.val("No");
+        }
+        $("form")[0].appendChild(input[0]);
+
+
+    };
+
+
+
+</script>
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+    }
+
+        .card > hr {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .card > .list-group:first-child .list-group-item:first-child {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+        }
+
+        .card > .list-group:last-child .list-group-item:last-child {
+            border-bottom-right-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+    .card-body {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        margin-bottom: 0.75rem;
+    }
+
+    .card-subtitle {
+        margin-top: -0.375rem;
+        margin-bottom: 0;
+    }
+
+    .card-text:last-child {
+        margin-bottom: 0;
+    }
+
+    .card-link:hover {
+        text-decoration: none;
+    }
+
+    .card-link + .card-link {
+        margin-left: 1.25rem;
+    }
+
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+        .card-header:first-child {
+            border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+        }
+
+        .card-header + .list-group .list-group-item:first-child {
+            border-top: 0;
+        }
+</style>
+

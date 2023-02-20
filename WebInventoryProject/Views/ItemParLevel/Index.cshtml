@@ -1,0 +1,237 @@
+﻿@using WebInventoryProject.ViewModel
+@model ParLevelViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+<html>
+<head>
+    <style>
+        table {
+            table-layout: fixed;
+        }
+
+        .col1 {
+            width: 5px;
+        }
+    </style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblItem').dataTable();
+        });
+
+    </script>
+</head>
+<body>
+    <div id="page-wrapper">
+        <div class="main-page login-page "style="width:90%;">
+            <div class="widget-shadow">
+                <div class="login-body">
+                    @using (Html.BeginForm("", "", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Partial("MessageAlert")
+
+                    <div class="form-horizontal">
+                        <h2 class="title1">Create/Update</h2>
+                        <hr />
+
+                        <div class="form-group">
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.SettingItem.itemId, new { htmlAttributes = new { @class = "form-control", @id = "ItemId" } })
+                            </div>
+                        </div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.SettingItem.subcategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.DropDownListFor(m => m.SettingItem.subcategoryId, new SelectList(Model.settingSubCategories, "subcategoryId", "subcategoryName"), "Select Sub Category", new { @id = "subcategoryId" })
+                                @Html.ValidationMessageFor(m => m.SettingItem.subcategoryId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SettingItem.itemCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.EditorFor(model => model.SettingItem.itemCode, new { @id = "itemCode" })
+                                @Html.ValidationMessageFor(model => model.SettingItem.itemCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SettingItem.itemName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.EditorFor(model => model.SettingItem.itemName, new { @id = "itemName" })
+                                @Html.ValidationMessageFor(model => model.SettingItem.itemName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.SettingItem.purchaseUnitId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.DropDownListFor(m => m.SettingItem.purchaseUnitId, new SelectList(Model.settingUnits, "unitId", "unitName"), "Select Purchase Unit", new { @id = "purchaseUnitId" })
+                                @Html.ValidationMessageFor(m => m.SettingItem.purchaseUnitId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.SettingItem.issuanceUnitId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.DropDownListFor(m => m.SettingItem.issuanceUnitId, new SelectList(Model.settingUnits, "unitId", "unitName"), "Select Receipe Unit", new { @id = "issuanceUnitId" })
+                                @Html.ValidationMessageFor(m => m.SettingItem.issuanceUnitId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.SettingItem.recipeUnitId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.DropDownListFor(m => m.SettingItem.recipeUnitId, new SelectList(Model.settingUnits, "unitId", "unitName"), "Select Receipe Unit", new { @id = "recipeUnitId" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SettingItem.purchaseIssuanceConv, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.EditorFor(model => model.SettingItem.purchaseIssuanceConv, new { @id = "purchaseIssuanceConv" })
+                                @Html.ValidationMessageFor(model => model.SettingItem.purchaseIssuanceConv, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SettingItem.issuanceRecipeConv, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.EditorFor(model => model.SettingItem.issuanceRecipeConv, new { @id = "issuanceRecipeConv" })
+                                @Html.ValidationMessageFor(model => model.SettingItem.issuanceRecipeConv, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SettingItem.isActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.EditorFor(model => model.SettingItem.isActive, new { @id = "isActive" })
+                                @Html.ValidationMessageFor(model => model.SettingItem.isActive, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SettingItem.itemType, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-offset-4">
+                                @Html.EditorFor(model => model.SettingItem.itemType, new { @id = "itemType" })
+                                @Html.ValidationMessageFor(model => model.SettingItem.itemType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <h2 class="title1">ITEM PAR LEVEL</h2>
+                        <br />
+                        <table class="table" id="tblItem">
+                            @*<tr>
+                <td>Branch</td>
+                <td>Department</td>
+                <td style="width:10%;">Min</td>
+                <td style="width:10%;">Max</td>
+                <td style="visibility:hidden;width:10%;">BranchId</td>
+                <td style="visibility:hidden;width:20%;">DepartmentId</td>
+            </tr>*@
+                            <tbody>
+                                @foreach (var Item in Model.ParLevelViewModels)
+                                {
+                                    <tr class="myrow">
+                                        <td>@Html.EditorFor(x => Item.branchName, new { htmlAttributes = new { @class = "form-control", disabled = "disabled", @readonly = "readonly" } })
+                                        <td>@Html.EditorFor(x => Item.departmentName, new { htmlAttributes = new { @class = "form-control", disabled = "disabled", @readonly = "readonly" } })</td>
+                                        <td style="width: 20%;">@Html.EditorFor(x => Item.min)</td>
+                                        <td style="width: 2%;">@Html.EditorFor(x => Item.max)</td>
+                                        <td style="visibility:hidden;">@Html.EditorFor(x => Item.branchId)</td>
+                                        <td style="visibility:hidden;">@Html.EditorFor(x => Item.departmentId)</td>
+
+                                    </tr>
+                                }
+                            </tbody>
+
+
+                        </table>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                @if (Model.SettingItem == null)
+                                {
+                                <input value="Save" id="btnSave" class="btn btn-primary" />
+                                }
+                                @if (Model.SettingItem != null)
+                                {
+                            <input value="Update" id="btnSave" class="btn btn-primary" />
+                                }
+                            </div>
+                        </div>
+                       
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+
+<script type="text/javascript">
+    $("body").on("click", "#btnSave", function () {
+        //Loop through the Table rows and build a JSON array.
+        alert('i am here') 
+        $("#subcategoryId").change(function () {
+            var id = $(this).children(":selected").attr("id");
+            alert(id);
+            console.log(id);
+        });
+         var settingItem =
+        {
+            ItemId: $('#@Html.IdFor(m => m.SettingItem.itemId)').val(),
+            subcategoryId: $('#subcategoryId option:selected').val(),
+            itemCode: $('#@Html.IdFor(m => m.SettingItem.itemCode)').val(),
+            itemName: $('#@Html.IdFor(m => m.SettingItem.itemName)').val(),
+            purchaseUnitId: $('#purchaseUnitId option:selected').val(),
+            issuanceUnitId: $('#issuanceUnitId option:selected').val(),
+            recipeUnitId: $('#recipeUnitId option:selected').val(),
+            purchaseIssuanceConv: $('#@Html.IdFor(m => m.SettingItem.purchaseIssuanceConv)').val(),
+            issuanceRecipeConv: $('#@Html.IdFor(m => m.SettingItem.issuanceRecipeConv)').val(),
+            isActive: $('#@Html.IdFor(m => m.SettingItem.isActive)').val(),
+            itemType: $('#@Html.IdFor(m => m.SettingItem.itemType)').val()
+
+        }
+    
+        var Items = new Array();
+        $("#tblItem TBODY TR").each(function ()
+        {
+            var row = $(this);
+            var ItemPar = {};
+            ItemPar.branchName = row.find("td").eq(0).find('input[type=text]').val();
+            ItemPar.departmentName = row.find("td").eq(1).find('input[type=text]').val();
+            ItemPar.min = row.find("td").eq(2).find('input[type=text]').val();
+            ItemPar.max = row.find("td").eq(3).find('input[type=text]').val();
+            ItemPar.branchId = row.find("td").eq(4).find('input[type=Number]').val();
+            ItemPar.departmentId = row.find("td").eq(5).find('input[type=Number]').val();
+            Items.push(ItemPar);
+
+        });
+        var ParLevelViewModel = new Array();
+        ParLevelViewModel = Items;
+        var object =
+        {
+            "ParLevelViewModel": ParLevelViewModel,
+            "model": settingItem
+        }
+        console.log(object);
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+            type: "POST",
+            url: "/ItemParLevel/Index",
+            data: JSON.stringify(object),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                window.location.replace("/ItemParLevel/ItemList");
+            }
+        });
+    });
+</script>
+
+
+

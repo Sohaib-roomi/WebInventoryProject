@@ -1,0 +1,101 @@
+﻿@model IEnumerable<WebInventoryProject.ViewModel.InvRightsViewModel>
+
+@using WebInventoryProject.Controllers
+@{
+    ViewBag.Title = "CategoryList";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').dataTable();
+        });
+    </script>
+</head>
+<body>
+    <div id="page-wrapper">
+        <div class="main-page login-page " style="width:90%;">
+            <div class="widget-shadow">
+                <div class="login-body">
+                    @Html.Partial("MessageAlert")
+                    <h2 class="title1">CATEGORIES</h2>
+                    <br />
+                    <div class="pull-right">
+                        @if (UserController.AllowSave == true) 
+                        {
+                            <a class="btn btn-success" style="margin-bottom:10px" href="@Url.Action("Category", "Category")"><i class="fa fa-plus"></i>ADD</a>
+                        }
+                        else
+                        {
+
+                            <a class="btn btn-block disabled" style="margin-bottom:10px;" href="@Url.Action("Category", "Category")"><i class="fa fa-plus"></i>ADD</a>
+                        }
+                    </div>
+                    <div class="table_bordered" width="600px;">
+                        <table class="table table-striped table-bordered" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        categoryCode
+                                    </th>
+                                    <th>
+                                        categoryName
+                                    </th>
+                                    <th>
+                                        isActive
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.settingCategory)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.categoryCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.categoryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.isActive)
+                                        </td>
+                                        <td>
+                                            @if (UserController.AllowEdit == true)
+                                            {
+                                                <button class="btn btn-xs btn-default"><i class="fa fa-pencil"> </i>@Html.ActionLink("Edit", "Category", new { categoryId = item.categoryId }, new { Style = "color:White" })</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-xs btn-default disabled"><i class="fa fa-pencil"> </i>@Html.ActionLink("Edit", "Category", new { categoryId = item.categoryId }, new { Style = "color:White" })</button>
+                                            }
+
+
+                                            @if (UserController.AllowDelete == true)
+                                            {
+                                                <button class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> @Html.ActionLink("Delete", "Delete", new { categoryId = item.categoryId }, new { Style = "color:White" })</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-xs btn-danger disabled"><i class="fa fa-trash"></i> @Html.ActionLink("Delete", "Delete", new { categoryId = item.categoryId }, new { Style = "color:White" })</button>
+                                            }
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

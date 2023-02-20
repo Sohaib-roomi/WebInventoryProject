@@ -1,0 +1,36 @@
+﻿@*@model WebInventoryProject.Models.invPurchaseOrderMaster*@
+@using WebInventoryProject.ViewModel
+@model InvGRNViewModel
+
+<option value="">--Select PO No--</option>
+
+@if (ViewBag.POList != null)
+{
+    foreach (var item in ViewBag.POList)
+    {
+        <option value="@item.Value">@item.Text</option>
+
+    }
+
+
+}
+
+@*<script>
+        function Loady(poId) {
+            alert('i am here')
+            $.ajax({
+                type: "post",
+                url: "MasterDetail/grnPoWiseDetail",
+                data: { 'poId': $(poId).val() },
+                 success: function (response) {
+                    $("#poId").empty();
+                    $("#poId").append(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
+    </script>*@
+
+

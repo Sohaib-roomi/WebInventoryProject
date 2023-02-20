@@ -1,0 +1,147 @@
+﻿@using WebInventoryProject.ViewModel
+@model UserInventoryRightsViewModel
+
+@{
+    ViewBag.Title = "UserInventoryRights";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+<h2>UserInventoryRights</h2>
+
+
+<div id="page-wrapper">
+    <div class="main-page login-page ">
+        <div class="widget-shadow">
+            <div class="login-body">
+                @using (Html.BeginForm("UserInventoryRights", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Partial("MessageAlert")
+
+                <div class="form-horizontal">
+                    <h2 class="title1">Create/Update</h2>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-md-10" typeof="hi">
+                            @Html.HiddenFor(model => model.settingUserInventoryRights.Id, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+
+                    </div>
+                    @Html.LabelFor(model => model.settingUserInventoryRights.userId, "userId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.settingUserInventoryRights.userId, new SelectList(Model.loginUsers, "userId", "firstName"), "Select User", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.settingUserInventoryRights.userId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.settingUserInventoryRights.branchId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.settingUserInventoryRights.branchId, new SelectList(Model.settingBranch, "branchId", "branchName"), "Select Branch", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.settingUserInventoryRights.branchId, "", new { @class = "text-danger" })
+                        </div>
+
+                        @Html.LabelFor(m => m.settingUserInventoryRights.departmentId, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.settingUserInventoryRights.departmentId, new SelectList(Model.settingDepartment, "departmentId", "departmentName"), "Select Department", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.settingUserInventoryRights.departmentId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.settingUserInventoryRights.formId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.settingUserInventoryRights.formId, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.settingUserInventoryRights.formId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @if (Model.userType != null)
+                    {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.settingUserInventoryRights.UserType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.settingUserInventoryRights.UserType, new { htmlAttributes = new { @class = "form-control",@readonly = "readonly",@disabled="disabled" } })
+                        @Html.ValidationMessageFor(model => model.settingUserInventoryRights.UserType, "", new { @class = "text-danger" })
+                   </div>
+                </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+
+                            <div class="col-md-10">
+                                @Html.LabelFor(model => model.settingUserInventoryRights.UserType, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <select name="userType">
+                                    <option value="Admin">Admin</option>
+                                    <option value="Normal">Normal</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    }
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.settingUserInventoryRights.save, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.settingUserInventoryRights.save)
+                                @Html.ValidationMessageFor(model => model.settingUserInventoryRights.save, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.settingUserInventoryRights.edit, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.settingUserInventoryRights.edit)
+                                @Html.ValidationMessageFor(model => model.settingUserInventoryRights.edit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.settingUserInventoryRights.delete, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.settingUserInventoryRights.delete)
+                                @Html.ValidationMessageFor(model => model.settingUserInventoryRights.delete, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.settingUserInventoryRights.post, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.settingUserInventoryRights.post)
+                                @Html.ValidationMessageFor(model => model.settingUserInventoryRights.post, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            @if (Model.settingUserInventoryRights == null)
+                            {
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            }
+                            @if (Model.settingUserInventoryRights != null)
+                            {
+                                <input type="submit" value="Update" class="btn btn-default" />
+                            }
+                        </div>
+                    </div>
+                </div>
+                    }
+                </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+﻿@model WebInventoryProject.Models.loginUser
+
+@{
+    ViewBag.Title = "signUp";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+    <div id="page-wrapper">
+        <div class="main-page signup-page">
+            <h2 class="title1">SignUp Here</h2>
+            <div class="sign-up-row widget-shadow">
+                <h5>Personal Information :</h5>
+                @using (Html.BeginForm("signUp", "Accounts", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="sign-u">
+                        <input type="text" name="firstName" placeholder="First Name" required="">
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="sign-u">
+                        <input type="text" name="lastName" placeholder="Last Name" required="">
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="sign-u">
+                        <input type="email" name="email" placeholder="Email Address" required="">
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        <div class="clearfix"> </div>
+                    </div>
+                    @*<div class="sign-u">
+                            <div class="sign-up1">
+                                <h4>Gender* :</h4>
+                            </div>
+                            <div class="sign-up2">
+                                <label>
+                                    <input type="radio" name="Gender" required="">
+                                    Male
+                                </label>
+                                <label>
+                                    <input type="radio" name="Gender" required="">
+                                    Female
+                                </label>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>*@
+                    <h6>Login Information :</h6>
+                    <div class="sign-u">
+                        <input type="password" name="password" placeholder="Password" required="">
+                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="sign-u">
+                        <input type="text" name="contactNo" placeholder="Contact No" required="">
+                        <div class="clearfix"> </div>
+                    </div>
+                    @*<div class="sign-u">
+                            <input type="password" placeholder="Confirm Password" required="">
+                        </div>*@
+                    <div class="clearfix"> </div>
+                    <div class="sub_home">
+                        <input type="submit" value="Submit">
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="registration">
+                        Already Registered.
+                        <a class="" href="login.html">
+                            Login
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+

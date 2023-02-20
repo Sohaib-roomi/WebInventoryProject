@@ -1,0 +1,838 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{85FEBC68-6617-4944-BD01-74AE74368A1B}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebInventoryProject</RootNamespace>
+    <AssemblyName>WebInventoryProject</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.123\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Core.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authorization, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authorization.Policy, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.Policy.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.Policy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Extensions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Extensions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.ResponseCaching.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.2.1.0\lib\net45\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.2.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.2.1.0\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.2.2.0\lib\netstandard2.0\Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemParLevelController.cs" />
+    <Compile Include="Controllers\MasterDetailController.cs" />
+    <Compile Include="Controllers\SubCategoryController.cs" />
+    <Compile Include="Controllers\UnitController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106300917557_firstmigration.cs" />
+    <Compile Include="Migrations\202106300917557_firstmigration.designer.cs">
+      <DependentUpon>202106300917557_firstmigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107011016418_category.cs" />
+    <Compile Include="Migrations\202107011016418_category.designer.cs">
+      <DependentUpon>202107011016418_category.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107020932460_branch.cs" />
+    <Compile Include="Migrations\202107020932460_branch.designer.cs">
+      <DependentUpon>202107020932460_branch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107030834097_department.cs" />
+    <Compile Include="Migrations\202107030834097_department.designer.cs">
+      <DependentUpon>202107030834097_department.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107030844276_department1.cs" />
+    <Compile Include="Migrations\202107030844276_department1.designer.cs">
+      <DependentUpon>202107030844276_department1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107051302138_subCatTab.cs" />
+    <Compile Include="Migrations\202107051302138_subCatTab.designer.cs">
+      <DependentUpon>202107051302138_subCatTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107081404055_a.cs" />
+    <Compile Include="Migrations\202107081404055_a.designer.cs">
+      <DependentUpon>202107081404055_a.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107101003314_unit.cs" />
+    <Compile Include="Migrations\202107101003314_unit.designer.cs">
+      <DependentUpon>202107101003314_unit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107101007393_unit1.cs" />
+    <Compile Include="Migrations\202107101007393_unit1.designer.cs">
+      <DependentUpon>202107101007393_unit1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107150806037_seedingDeptandBranch.cs" />
+    <Compile Include="Migrations\202107150806037_seedingDeptandBranch.designer.cs">
+      <DependentUpon>202107150806037_seedingDeptandBranch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108011904405_TblItem.cs" />
+    <Compile Include="Migrations\202108011904405_TblItem.designer.cs">
+      <DependentUpon>202108011904405_TblItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108011914547_tblItemParLevel.cs" />
+    <Compile Include="Migrations\202108011914547_tblItemParLevel.designer.cs">
+      <DependentUpon>202108011914547_tblItemParLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108060727029_MasterDetailTable.cs" />
+    <Compile Include="Migrations\202108060727029_MasterDetailTable.designer.cs">
+      <DependentUpon>202108060727029_MasterDetailTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108061639207_TablesSetting.cs" />
+    <Compile Include="Migrations\202108061639207_TablesSetting.designer.cs">
+      <DependentUpon>202108061639207_TablesSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108061653191_TablePKey.cs" />
+    <Compile Include="Migrations\202108061653191_TablePKey.designer.cs">
+      <DependentUpon>202108061653191_TablePKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108302016584_InvPurchaseOrderMasterDetailRecipeMasDetailSupplierTable.cs" />
+    <Compile Include="Migrations\202108302016584_InvPurchaseOrderMasterDetailRecipeMasDetailSupplierTable.Designer.cs">
+      <DependentUpon>202108302016584_InvPurchaseOrderMasterDetailRecipeMasDetailSupplierTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109151939462_GRNINVWAREHOUSETABLE.cs" />
+    <Compile Include="Migrations\202109151939462_GRNINVWAREHOUSETABLE.Designer.cs">
+      <DependentUpon>202109151939462_GRNINVWAREHOUSETABLE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109181206573_tableInvTransferMaster.cs" />
+    <Compile Include="Migrations\202109181206573_tableInvTransferMaster.Designer.cs">
+      <DependentUpon>202109181206573_tableInvTransferMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109181519197_changingDateType.cs" />
+    <Compile Include="Migrations\202109181519197_changingDateType.Designer.cs">
+      <DependentUpon>202109181519197_changingDateType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109181529573_tableInvTransferDetail.cs" />
+    <Compile Include="Migrations\202109181529573_tableInvTransferDetail.Designer.cs">
+      <DependentUpon>202109181529573_tableInvTransferDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109181647146_TableInvOpeningMaster.cs" />
+    <Compile Include="Migrations\202109181647146_TableInvOpeningMaster.Designer.cs">
+      <DependentUpon>202109181647146_TableInvOpeningMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109181657282_TableInvOpeningDetail.cs" />
+    <Compile Include="Migrations\202109181657282_TableInvOpeningDetail.Designer.cs">
+      <DependentUpon>202109181657282_TableInvOpeningDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109191203417_invPhysicalStockMaster.cs" />
+    <Compile Include="Migrations\202109191203417_invPhysicalStockMaster.Designer.cs">
+      <DependentUpon>202109191203417_invPhysicalStockMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109191206507_invPhysicalStockDetail.cs" />
+    <Compile Include="Migrations\202109191206507_invPhysicalStockDetail.Designer.cs">
+      <DependentUpon>202109191206507_invPhysicalStockDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109191312151_invDirectPurchaseMaster.cs" />
+    <Compile Include="Migrations\202109191312151_invDirectPurchaseMaster.Designer.cs">
+      <DependentUpon>202109191312151_invDirectPurchaseMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109191318144_invDirectPurchaseDetail.cs" />
+    <Compile Include="Migrations\202109191318144_invDirectPurchaseDetail.Designer.cs">
+      <DependentUpon>202109191318144_invDirectPurchaseDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110150450439_invIssuanceMaster.cs" />
+    <Compile Include="Migrations\202110150450439_invIssuanceMaster.Designer.cs">
+      <DependentUpon>202110150450439_invIssuanceMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110150501482_invIssuanceDetail.cs" />
+    <Compile Include="Migrations\202110150501482_invIssuanceDetail.Designer.cs">
+      <DependentUpon>202110150501482_invIssuanceDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110300559152_invIssuanceReturnMasterDetail.cs" />
+    <Compile Include="Migrations\202110300559152_invIssuanceReturnMasterDetail.Designer.cs">
+      <DependentUpon>202110300559152_invIssuanceReturnMasterDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111080518160_invProductionMasterTable.cs" />
+    <Compile Include="Migrations\202111080518160_invProductionMasterTable.Designer.cs">
+      <DependentUpon>202111080518160_invProductionMasterTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111080526211_invProductionDetailTable.cs" />
+    <Compile Include="Migrations\202111080526211_invProductionDetailTable.Designer.cs">
+      <DependentUpon>202111080526211_invProductionDetailTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111151842226_invWastageMasterTable.cs" />
+    <Compile Include="Migrations\202111151842226_invWastageMasterTable.Designer.cs">
+      <DependentUpon>202111151842226_invWastageMasterTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111151849439_invWastageDetailTable.cs" />
+    <Compile Include="Migrations\202111151849439_invWastageDetailTable.Designer.cs">
+      <DependentUpon>202111151849439_invWastageDetailTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111151857125_settingUserInventoryRightsTable.cs" />
+    <Compile Include="Migrations\202111151857125_settingUserInventoryRightsTable.Designer.cs">
+      <DependentUpon>202111151857125_settingUserInventoryRightsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111230558054_invDiscardMasterTable.cs" />
+    <Compile Include="Migrations\202111230558054_invDiscardMasterTable.Designer.cs">
+      <DependentUpon>202111230558054_invDiscardMasterTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111230606076_invDiscardDetailTable.cs" />
+    <Compile Include="Migrations\202111230606076_invDiscardDetailTable.Designer.cs">
+      <DependentUpon>202111230606076_invDiscardDetailTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207191921284_updateUsertABLE.cs" />
+    <Compile Include="Migrations\202207191921284_updateUsertABLE.Designer.cs">
+      <DependentUpon>202207191921284_updateUsertABLE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ModelFactory\MasterDetailmodelFacotry.cs" />
+    <Compile Include="ModelFactory\Result.cs" />
+    <Compile Include="Models\DbContextClass.cs" />
+    <Compile Include="Models\invDemandDetail.cs" />
+    <Compile Include="Models\invDemandMaster.cs" />
+    <Compile Include="Models\invDirectPurchaseDetail.cs" />
+    <Compile Include="Models\invDirectPurchaseMaster.cs" />
+    <Compile Include="Models\invDiscardDetail.cs" />
+    <Compile Include="Models\invDiscardMaster.cs" />
+    <Compile Include="Models\invGRNDetail.cs" />
+    <Compile Include="Models\invGRNMaster.cs" />
+    <Compile Include="Models\invIssuanceDetail.cs" />
+    <Compile Include="Models\invIssuanceMaster.cs" />
+    <Compile Include="Models\invIssuanceReturnDetail.cs" />
+    <Compile Include="Models\invIssuanceReturnMaster.cs" />
+    <Compile Include="Models\invOpeningDetail.cs" />
+    <Compile Include="Models\invOpeningMaster.cs" />
+    <Compile Include="Models\invPhysicalStockDetail.cs" />
+    <Compile Include="Models\invPhysicalStockMaster.cs" />
+    <Compile Include="Models\invProductionDetail.cs" />
+    <Compile Include="Models\invProductionMaster.cs" />
+    <Compile Include="Models\invPurchaseOrderDetail.cs" />
+    <Compile Include="Models\invPurchaseOrderMaster.cs" />
+    <Compile Include="Models\invRecipeDetail.cs" />
+    <Compile Include="Models\invRecipeMaster.cs" />
+    <Compile Include="Models\invTransferDetail.cs" />
+    <Compile Include="Models\InvTransferMaster.cs" />
+    <Compile Include="Models\invWareHouse.cs" />
+    <Compile Include="Models\invWastageDetail.cs" />
+    <Compile Include="Models\invWastageMaster.cs" />
+    <Compile Include="Models\loginUser.cs" />
+    <Compile Include="Models\settingBranch.cs" />
+    <Compile Include="Models\settingCategory.cs" />
+    <Compile Include="Models\settingDepartment.cs" />
+    <Compile Include="Models\settingItemParlevel.cs" />
+    <Compile Include="Models\settingSubCategory.cs" />
+    <Compile Include="Models\settingUnit.cs" />
+    <Compile Include="Models\settingItem.cs" />
+    <Compile Include="Models\settingUserInventoryRights.cs" />
+    <Compile Include="Models\Supplier.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\DepartmentViewModel.cs" />
+    <Compile Include="ViewModel\invDirectPurchaseMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\InvDiscardMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\InvGRNViewModel.cs" />
+    <Compile Include="ViewModel\invIssuanceMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\invIssuanceReturnMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\InvMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\invOpeningMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\invPhysicalStockMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\invProductionMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\InvPurchaseOrderViewModel.cs" />
+    <Compile Include="ViewModel\InvRecipeViewModel.cs" />
+    <Compile Include="ViewModel\InvRightsViewModel.cs" />
+    <Compile Include="ViewModel\InvTransferMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\invWastageMasterDetailViewModel.cs" />
+    <Compile Include="ViewModel\ParLevelViewModel.cs" />
+    <Compile Include="ViewModel\SubcategoryViewModel.cs" />
+    <Compile Include="ViewModel\UserInventoryRightsViewModel.cs" />
+    <Compile Include="ViewModel\UserRightsViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Theme\404.html" />
+    <Content Include="Theme\500.html" />
+    <Content Include="Theme\blank-page.html" />
+    <Content Include="Theme\buttons.html" />
+    <Content Include="Theme\charts.html" />
+    <Content Include="Theme\compose.html" />
+    <Content Include="Theme\css\animate.css" />
+    <Content Include="Theme\css\bootstrap.css" />
+    <Content Include="Theme\css\custom.css" />
+    <Content Include="Theme\css\export.css" />
+    <Content Include="Theme\css\font-awesome.css" />
+    <Content Include="Theme\css\graph.css" />
+    <Content Include="Theme\css\jqcandlestick.css" />
+    <Content Include="Theme\css\monthly.css" />
+    <Content Include="Theme\css\owl.carousel.css" />
+    <Content Include="Theme\css\SidebarNav.min.css" />
+    <Content Include="Theme\css\style.css" />
+    <Content Include="Theme\fonts\fontawesome-webfont.svg" />
+    <Content Include="Theme\forms.html" />
+    <Content Include="Theme\general.html" />
+    <Content Include="Theme\grids.html" />
+    <Content Include="Theme\icons.html" />
+    <Content Include="Theme\images\1.jpg" />
+    <Content Include="Theme\images\2.jpg" />
+    <Content Include="Theme\images\3.jpg" />
+    <Content Include="Theme\images\4.jpg" />
+    <Content Include="Theme\images\a.png" />
+    <Content Include="Theme\images\i1.png" />
+    <Content Include="Theme\images\i2.png" />
+    <Content Include="Theme\images\i3.png" />
+    <Content Include="Theme\images\i4.png" />
+    <Content Include="Theme\images\img-sprite.png" />
+    <Content Include="Theme\images\img1.png" />
+    <Content Include="Theme\images\lock.png" />
+    <Content Include="Theme\images\mail.png" />
+    <Content Include="Theme\images\search-icon.png" />
+    <Content Include="Theme\images\slider1.jpg" />
+    <Content Include="Theme\images\slider2.jpg" />
+    <Content Include="Theme\images\slider3.jpg" />
+    <Content Include="Theme\images\slider4.jpg" />
+    <Content Include="Theme\images\slider5.jpg" />
+    <Content Include="Theme\images\slider6.jpg" />
+    <Content Include="Theme\images\slider7.jpg" />
+    <Content Include="Theme\images\tick.png" />
+    <Content Include="Theme\images\user.png" />
+    <Content Include="Theme\images\weather.jpg" />
+    <Content Include="Theme\inbox.html" />
+    <Content Include="Theme\index.html" />
+    <Content Include="Theme\js\amcharts.js" />
+    <Content Include="Theme\js\bootstrap.js" />
+    <Content Include="Theme\js\Chart.bundle.js" />
+    <Content Include="Theme\js\Chart.js" />
+    <Content Include="Theme\js\Chart.min.js" />
+    <Content Include="Theme\js\chartinator.js" />
+    <Content Include="Theme\js\classie.js" />
+    <Content Include="Theme\js\custom.js" />
+    <Content Include="Theme\js\export.min.js" />
+    <Content Include="Theme\js\images\dragIconRoundBig.svg" />
+    <Content Include="Theme\js\images\lens.svg" />
+    <Content Include="Theme\js\index.js" />
+    <Content Include="Theme\js\index1.js" />
+    <Content Include="Theme\js\index2.js" />
+    <Content Include="Theme\js\jquery-1.11.1.min.js" />
+    <Content Include="Theme\js\jquery.flot.js" />
+    <Content Include="Theme\js\jquery.jqcandlestick.min.js" />
+    <Content Include="Theme\js\jquery.nicescroll.js" />
+    <Content Include="Theme\js\light.js" />
+    <Content Include="Theme\js\metisMenu.min.js" />
+    <Content Include="Theme\js\modernizr.custom.js" />
+    <Content Include="Theme\js\monthly.js" />
+    <Content Include="Theme\js\owl.carousel.js" />
+    <Content Include="Theme\js\pie-chart.js" />
+    <Content Include="Theme\js\scripts.js" />
+    <Content Include="Theme\js\serial.js" />
+    <Content Include="Theme\js\SidebarNav.min.js" />
+    <Content Include="Theme\js\SimpleChart.js" />
+    <Content Include="Theme\js\utils.js" />
+    <Content Include="Theme\js\validator.min.js" />
+    <Content Include="Theme\login.html" />
+    <Content Include="Theme\media.html" />
+    <Content Include="Theme\signup.html" />
+    <Content Include="Theme\tables.html" />
+    <Content Include="Theme\typography.html" />
+    <Content Include="Theme\validation.html" />
+    <Content Include="Theme\w3layouts-License.txt" />
+    <Content Include="Theme\widgets.html" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
+    <Content Include="Theme\fonts\fontawesome-webfont.eot" />
+    <Content Include="Theme\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Theme\fonts\fontawesome-webfont.woff" />
+    <Content Include="Theme\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Theme\fonts\FontAwesome.otf" />
+    <Content Include="Theme\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Theme\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Theme\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Theme\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Views\Accounts\Index.cshtml" />
+    <Content Include="Views\Accounts\SignUp.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Category.cshtml" />
+    <Content Include="Views\Shared\MessageAlert.cshtml" />
+    <Content Include="Views\Shared\Login.cshtml" />
+    <Content Include="Views\Branch\Index.cshtml" />
+    <Content Include="Views\Branch\Branch.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Department\Department.cshtml" />
+    <Content Include="Views\SubCategory\SubCategory.cshtml" />
+    <Content Include="Views\SubCategory\Index.cshtml" />
+    <Content Include="Views\Unit\Index.cshtml" />
+    <Content Include="Views\Unit\Unit.cshtml" />
+    <Content Include="Views\MasterDetail\InvDemandMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\Index.cshtml" />
+    <Content Include="Views\MasterDetail\InvPurchaseOrderMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvPurchaseOrder.cshtml" />
+    <Content Include="Views\ItemParLevel\Index.cshtml" />
+    <Content Include="Views\ItemParLevel\ItemList.cshtml" />
+    <Content Include="Views\Home\IndexOfSupplier.cshtml" />
+    <Content Include="Views\Home\Supplier.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvRecipe.cshtml" />
+    <Content Include="Views\MasterDetail\InvRecipeMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\InvDemandDetails.cshtml" />
+    <Content Include="Views\MasterDetail\InvPurchaseDetails.cshtml" />
+    <Content Include="Views\MasterDetail\InvRecipeDetails.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvGRN.cshtml" />
+    <Content Include="Views\MasterDetail\InvGRNDetails.cshtml" />
+    <Content Include="Views\MasterDetail\InvGRNMasterDetail.cshtml" />
+    <Content Include="Views\Shared\PV_getPONoList.cshtml" />
+    <Content Include="Views\MasterDetail\PV_grnPoWiseDetail.cshtml" />
+    <Content Include="Views\MasterDetail\InvTransferMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvTransfer.cshtml" />
+    <Content Include="Views\MasterDetail\InvTransferDetails.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvOpening.cshtml" />
+    <Content Include="Views\MasterDetail\InvOpeningDetails.cshtml" />
+    <Content Include="Views\MasterDetail\InvOpeningMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvPhysicalStock.cshtml" />
+    <Content Include="Views\MasterDetail\InvPhysicalStockMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\InvPhysicalStockDetails.cshtml" />
+    <Content Include="Views\MasterDetail\InvDirectPurchaseMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvDirectPurchase.cshtml" />
+    <Content Include="Views\MasterDetail\InvDirectPurchaseDetails.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvIssuance.cshtml" />
+    <Content Include="Views\MasterDetail\InvIssuanceMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\InvIssuanceDetails.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvIssuanceReturn.cshtml" />
+    <Content Include="Views\MasterDetail\InvIssuanceReturnMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\InvIssuanceReturnDetails.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvProduction.cshtml" />
+    <Content Include="Views\MasterDetail\InvProductionMasterDetail.cshtml" />
+    <Content Include="Views\MasterDetail\InvProductionDetails.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvwastage.cshtml" />
+    <Content Include="Views\MasterDetail\InvwastageDetails.cshtml" />
+    <Content Include="Views\MasterDetail\InvwastageMasterDetail.cshtml" />
+    <Content Include="Views\Home\UserInventoryRights.cshtml" />
+    <Content Include="Views\Home\UserInvRightsIndex.cshtml" />
+    <Content Include="Views\MasterDetail\IndexInvDiscard.cshtml" />
+    <Content Include="Views\MasterDetail\InvDiscardDetails.cshtml" />
+    <Content Include="Views\MasterDetail\InvDiscardMasterDetail.cshtml" />
+    <Content Include="Views\Shared\Pv_DirectDetails.cshtml" />
+    <Content Include="Views\User\RegisterUser.cshtml" />
+    <Content Include="Views\User\SignUpUser.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202106300917557_firstmigration.resx">
+      <DependentUpon>202106300917557_firstmigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107011016418_category.resx">
+      <DependentUpon>202107011016418_category.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107020932460_branch.resx">
+      <DependentUpon>202107020932460_branch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107030834097_department.resx">
+      <DependentUpon>202107030834097_department.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107030844276_department1.resx">
+      <DependentUpon>202107030844276_department1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107051302138_subCatTab.resx">
+      <DependentUpon>202107051302138_subCatTab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107081404055_a.resx">
+      <DependentUpon>202107081404055_a.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107101003314_unit.resx">
+      <DependentUpon>202107101003314_unit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107101007393_unit1.resx">
+      <DependentUpon>202107101007393_unit1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107150806037_seedingDeptandBranch.resx">
+      <DependentUpon>202107150806037_seedingDeptandBranch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108011904405_TblItem.resx">
+      <DependentUpon>202108011904405_TblItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108011914547_tblItemParLevel.resx">
+      <DependentUpon>202108011914547_tblItemParLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108060727029_MasterDetailTable.resx">
+      <DependentUpon>202108060727029_MasterDetailTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108061639207_TablesSetting.resx">
+      <DependentUpon>202108061639207_TablesSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108061653191_TablePKey.resx">
+      <DependentUpon>202108061653191_TablePKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108302016584_InvPurchaseOrderMasterDetailRecipeMasDetailSupplierTable.resx">
+      <DependentUpon>202108302016584_InvPurchaseOrderMasterDetailRecipeMasDetailSupplierTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109151939462_GRNINVWAREHOUSETABLE.resx">
+      <DependentUpon>202109151939462_GRNINVWAREHOUSETABLE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109181206573_tableInvTransferMaster.resx">
+      <DependentUpon>202109181206573_tableInvTransferMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109181519197_changingDateType.resx">
+      <DependentUpon>202109181519197_changingDateType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109181529573_tableInvTransferDetail.resx">
+      <DependentUpon>202109181529573_tableInvTransferDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109181647146_TableInvOpeningMaster.resx">
+      <DependentUpon>202109181647146_TableInvOpeningMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109181657282_TableInvOpeningDetail.resx">
+      <DependentUpon>202109181657282_TableInvOpeningDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109191203417_invPhysicalStockMaster.resx">
+      <DependentUpon>202109191203417_invPhysicalStockMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109191206507_invPhysicalStockDetail.resx">
+      <DependentUpon>202109191206507_invPhysicalStockDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109191312151_invDirectPurchaseMaster.resx">
+      <DependentUpon>202109191312151_invDirectPurchaseMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109191318144_invDirectPurchaseDetail.resx">
+      <DependentUpon>202109191318144_invDirectPurchaseDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110150450439_invIssuanceMaster.resx">
+      <DependentUpon>202110150450439_invIssuanceMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110150501482_invIssuanceDetail.resx">
+      <DependentUpon>202110150501482_invIssuanceDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110300559152_invIssuanceReturnMasterDetail.resx">
+      <DependentUpon>202110300559152_invIssuanceReturnMasterDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111080518160_invProductionMasterTable.resx">
+      <DependentUpon>202111080518160_invProductionMasterTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111080526211_invProductionDetailTable.resx">
+      <DependentUpon>202111080526211_invProductionDetailTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111151842226_invWastageMasterTable.resx">
+      <DependentUpon>202111151842226_invWastageMasterTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111151849439_invWastageDetailTable.resx">
+      <DependentUpon>202111151849439_invWastageDetailTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111151857125_settingUserInventoryRightsTable.resx">
+      <DependentUpon>202111151857125_settingUserInventoryRightsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111230558054_invDiscardMasterTable.resx">
+      <DependentUpon>202111230558054_invDiscardMasterTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111230606076_invDiscardDetailTable.resx">
+      <DependentUpon>202111230606076_invDiscardDetailTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207191921284_updateUsertABLE.resx">
+      <DependentUpon>202207191921284_updateUsertABLE.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55760</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:55760/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

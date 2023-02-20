@@ -1,0 +1,490 @@
+﻿@using WebInventoryProject.ViewModel
+@model InvGRNViewModel
+@{
+    ViewBag.Title = "InvGRNMasterDetail";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+<h2>Inv GRN Master Detail</h2>
+
+<div class="modal fade" id="newOrderModal">
+    <div class="modal-dialog modal-lg" style=" width : 900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Add New Order</h4>
+            </div>
+            <form id="NewOrderForm">
+                <div class="modal-body">
+                    @*Customer Details*@
+                    <h5 style="color:#ff6347">GRN Order</h5>
+                    <hr />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(m => m.invGRNMaster.grnId, new { htmlAttributes = new { @class = "form-control", @id = "grnId" } })
+                            </div>
+                        </div>
+                        @if (Model.UserType == "Admin")
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Date
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" name="grnDate" id="grnDate" />
+                                </div>
+                                <label class="control-label col-md-2">
+                                    GRN No
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.code, new { @id = "code", @readonly = "readonly", @disabled = "disabled", required = "required" })
+                                    @*@Html.EditorFor(model => model.invPurchaseOrderMaster.poNo, new { @id = "poNo" })*@
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Branch
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invGRNMaster.branchId, new SelectList(Model.settingBranches, "branchId", "branchName"), "Select Branch", new { @id = "branchId", @style = "width: 270px;" })
+                                    @Html.ValidationMessageFor(m => m.invGRNMaster.branchId, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Department
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.invGRNMaster.departmentId, new SelectList(Model.settingDepartments, "departmentId", "departmentName"), "Select Department", new { @id = "departmentId", @style = "width: 270px;" })
+                                    @Html.ValidationMessageFor(m => m.invGRNMaster.departmentId, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Date
+                                </label>
+                                <div class="col-md-4">                                    
+                                    @Html.TextBoxFor(x => x.grnDate, "{0:yyyy-MM-dd}", new { @type = "date", @id = "grnDate", @style = "width: 270px;", @readonly = "readonly", @disabled = "disabled" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    GRN No
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.code, new { @id = "code", @readonly = "readonly", @disabled = "disabled", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Branch
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.settingBr.branchName, new { htmlAttributes = new { @id = "branchId", @style = "width: 270px;", disabled = "disabled", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(m => m.settingBr.branchName, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">
+                                    Department
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.settingDept.departmentName, new { htmlAttributes = new { @id = "departmentId", @style = "width: 270px;", disabled = "disabled", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(m => m.settingDept.departmentName, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        }
+
+
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Vendor
+                            </label>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.invGRNMaster.SPId, new SelectList(Model.Supplier, "SPId", "Vendor"), "Select Vendor", new { @onchange = "LoadFunction(this)", @style = "width: 270px;", @class = "form-control", @id = "SPId" })
+                                @Html.ValidationMessageFor(m => m.invGRNMaster.SPId, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="control-label col-md-2">
+                                PO No
+                            </label>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.invPurchaseOrderMaster.poId, new SelectList(""), "--Select Po--", new { @onchange = "Loads(this)", @class = "form-control", @id = "poId" })
+                                @Html.ValidationMessageFor(m => m.invPurchaseOrderMaster.poId, "", new { @class = "tex-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="control-label col-md-2">
+                                Ref No
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="referenceNo" id="referenceNo" />
+                                @*@Html.EditorFor(model => model.invPurchaseOrderMaster.desc, new { @id = "desc" })*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Desc
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="desc" id="desc" />
+
+                            </div>
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invGRNMaster.dateTime, new { htmlAttributes = new { @class = "form-control", @id = "dateTime" } })
+                            </div>
+
+                            <div class="col-md-10" typeof="hi">
+                                @Html.HiddenFor(model => model.invGRNMaster.isPost, new { htmlAttributes = new { @class = "form-control", @id = "isPost" } })
+                            </div>
+                        </div>
+
+
+
+                        @*Demand Details*@
+                        <h5 style="margin-top:10px;color:#ff6347">GRN Details</h5>
+                        <hr />
+                        <div id="partialPlaceHolder">
+
+
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="button" value="Save" id="btnSave" class="btn btn-primary" />
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+      
+   
+      $("body").on("click", "#btnSave", function () {
+
+        alert('i am here')
+
+        var GRNMasterArray =
+        {
+            grnId : $('#@Html.IdFor(m => m.invGRNMaster.grnId)').val(),
+            grnDate: $('#grnDate').val(),
+            grnNo: $('#code').val(),
+            SPId : $('#SPId option:selected').val(),
+            branchId : $('#branchId option:selected').val(),
+            departmentId : $('#departmentId option:selected').val(),
+            referenceNo : $('#referenceNo').val(),
+            desc: $('#desc').val(),
+            totalTax: $('#result').val(),
+            discount: $('#result1').val(),
+            totalAmount: $('#result2').val(),
+
+        }
+      
+        var PvgrnDetail = new Array();
+        $("#myTable TBODY TR").each(function () {
+            var Detail = {};
+            Detail.qty = $(this).find("td").eq(2).find('input[type = number]').val();
+            Detail.rate = $(this).find("td").eq(3).find('input[type = number]').val();
+            Detail.actualRate = $(this).find("td").eq(4).find('input[type = number]').val();
+            Detail.tax = $(this).find("td").eq(5).find('input[type = number]').val();
+            Detail.discount = $(this).find("td").eq(6).find('input[type = number]').val();    
+            Detail.finalRate = $(this).find("td").eq(7).find('input[type = number]').val();
+            Detail.itemId = $(this).find("td").eq(8).find('input[type = number]').val();
+            Detail.unitId = $(this).find("td").eq(9).find('input[type = number]').val();                               
+            Detail.poId = $('#poId option:selected').val();
+            PvgrnDetail.push(Detail)
+        });
+
+          var DetailArray = new Array();
+          DetailArray = PvgrnDetail;
+
+
+        var object =
+        {
+            "GRNMaster": GRNMasterArray,
+            "GRNDetail": DetailArray
+        }
+        console.log(object);
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+            type: "POST",
+            url: "/MasterDetail/InvGRNMasterDetail",
+            data: JSON.stringify(object),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+            Confirm();
+                window.location.replace("/MasterDetail/IndexInvGRN")
+            }
+        });
+      });
+
+ function Confirm() {
+        alert('i am at confirm function')
+            var input = $("<input />");
+            input.attr("type", "hidden").attr("name", "confirm_value");
+        if (confirm("Do you want to Proceed data?"))
+            {
+            input.val("Yes");
+
+             var PvgrnDetail = new Array();
+        $("#myTable TBODY TR").each(function () {
+            var Detail = {};
+            Detail.qty = $(this).find("td").eq(2).find('input[type = number]').val();
+            Detail.rate = $(this).find("td").eq(3).find('input[type = number]').val();
+            Detail.actualRate = $(this).find("td").eq(4).find('input[type = number]').val();
+            Detail.tax = $(this).find("td").eq(5).find('input[type = number]').val();
+            Detail.discount = $(this).find("td").eq(6).find('input[type = number]').val();    
+            Detail.finalRate = $(this).find("td").eq(7).find('input[type = number]').val();
+            Detail.itemId = $(this).find("td").eq(8).find('input[type = number]').val();
+            Detail.unitId = $(this).find("td").eq(9).find('input[type = number]').val();                               
+            Detail.poId = $('#poId option:selected').val();
+            PvgrnDetail.push(Detail)
+        });
+    var master = {
+        
+        isPost : $('#isPost').attr('checked'),
+        branchId : $('#branchId option:selected').val(),
+        departmentId : $('#departmentId option:selected').val(),
+        totalAmount: $('#result2').val(),
+        desc: $('#desc').val(),
+    };
+    
+          var DetailArray = new Array();
+          DetailArray = PvgrnDetail;
+          var MasterArray = new Array();
+          MasterArray = master;
+
+        var object =
+        {
+         
+            "GRNDetail": DetailArray,
+            "GRNMaster" : MasterArray,
+        }
+
+
+            $.ajax
+                ({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: "/MasterDetail/InvGRNMasterDetail",
+                    data: JSON.stringify(object),
+                    success: function (result) {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Error!');
+                    },
+
+                });
+            }
+            else
+            {
+                input.val("No");
+            }
+        $("form")[0].appendChild(input[0]);
+       
+      
+        };
+
+    function LoadFunction(VendorId) {
+
+        $.ajax({
+            type: "post",
+            url: "/MasterDetail/getPONObyVendor",
+            data: { 'SPId': $(VendorId).val() },
+            success: function (response) {
+                $("#poId").empty();
+                $("#poId").append(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+
+
+    };
+
+    function Loads(poId) {
+        alert('Reached')
+        if ($(poId).val() != "") {
+            $.ajax({
+
+                url: '/MasterDetail/PV_grnPoWiseDetail',
+                type: 'POST',
+                data: JSON.stringify({ 'poId': $(poId).val() }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    $("#partialPlaceHolder").html(data);
+                }
+            });
+        }
+    };
+    var TotalAmount, sub_totalQty, subtotalRate = 0;
+    function add() {
+
+        var row;
+        var sum = 0;
+        var sub_total = 0;
+        $('.row_num').each(function () {
+            row = $(this).attr('data-row');
+
+            sum = $('#tax_' + row).val();
+            sub_total = (sub_total * 1) + (sum * 1);
+
+
+        });
+
+        $('#result').val(sub_total);
+    };
+    function add1() {
+
+        var row;
+        var sum = 0;
+        var sub_total = 0;
+        $('.row_num1').each(function () {
+            row = $(this).attr('data-row');
+            sum = $('#discount_' + row).val();           
+            sub_total = (sub_total * 1) + (sum * 1);       
+        });
+
+        $('#result1').val(sub_total);
+    };
+
+    //For Quantity
+        var sub_total = 0;
+        function add2() {
+    alert('at Qty');
+        var row;
+        var sum = 0;       
+        $('.rom_num3').each(function () {
+            row = $(this).attr('data-row');
+            sum = $('#qty_' + row).val();
+            sub_total = (sub_total * 1) + (sum * 1);
+        });       
+    };
+    //For Rate
+      function add3() {
+        alert('at Rate');
+        var rowR;
+        var SumRate = 0;
+        var subtotalRate = 0;     
+
+        $('.rom_num4').each(function () {
+
+            rowR = $(this).attr('data-row');
+            SumRate = $('#rate_' + rowR).val();
+            alert(SumRate);
+            subtotalRate = (subtotalRate * 1) + (SumRate * 1)
+    
+        });
+        TotalAmount = sub_total * subtotalRate;
+        $('#result2').val(TotalAmount);
+    };
+ 
+   
+    $(document).ready(function () {
+        $("#newOrderModal").modal();
+        return false;
+    });  
+
+</script>
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+    }
+
+        .card > hr {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .card > .list-group:first-child .list-group-item:first-child {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+        }
+
+        .card > .list-group:last-child .list-group-item:last-child {
+            border-bottom-right-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+    .card-body {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        margin-bottom: 0.75rem;
+    }
+
+    .card-subtitle {
+        margin-top: -0.375rem;
+        margin-bottom: 0;
+    }
+
+    .card-text:last-child {
+        margin-bottom: 0;
+    }
+
+    .card-link:hover {
+        text-decoration: none;
+    }
+
+    .card-link + .card-link {
+        margin-left: 1.25rem;
+    }
+
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+        .card-header:first-child {
+            border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+        }
+
+        .card-header + .list-group .list-group-item:first-child {
+            border-top: 0;
+        }
+</style>
+
+
+
+

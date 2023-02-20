@@ -1,0 +1,185 @@
+﻿    @model IEnumerable<WebInventoryProject.Models.invDiscardDetail>
+
+@{
+    ViewBag.Title = "InvDiscardDetails";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+<h2>InvDiscardDetails</h2>
+
+<br />
+<br />
+<br />
+
+
+
+<div class="modal fade bs-modal-lg" id="UpdateMasterModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #f6f6f6;">
+                <h5 class="modal-title">Update Discard Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            @using (Html.BeginForm("EditDiscardDetail", "MasterDetail", FormMethod.Post))
+            {
+
+                <div class="modal-body">
+                    <section class="card">
+                        <div class="card-body">
+
+                            <div class="row form-group">
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="Project_ID">Item</label>
+
+                                        <input type="text" class="form-control" id="itemName" name="itemName" required disabled>
+
+                                        <input type="hidden" id="discardId" name="discardId" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="Project_ID">Quantity</label>
+
+                                        <input type="text" class="form-control" id="qty" name="qty" required>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="Project_ID">Item</label>
+
+                                        <input type="text" class="form-control" id="desc" name="desc">
+
+                                        
+                                    </div>
+                                </div>
+                             
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<div id="page-wrapper">
+    <div class="main-page login-page " style="width:90%;margin-top:-40px;">
+        <div class="widget-shadow">
+            <div class="login-body bg-light">
+                @Html.Partial("MessageAlert")
+                <h2 class="title1">Discard Details</h2>
+                <div>
+                    @*Receive All Database Data From Controller And Display Those Data In Client Side*@
+
+                    @if (Model.Count() != 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="card">
+                                <div class="card-header">
+
+                                </div>
+                                <div class="card-body">
+
+
+                                    <div class="panel-body">
+                                        <table class="table table-striped table-responsive">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <div class="table-responsive-sm">
+                                                            <table class="table table-striped css-serial">
+                                                                <thead>
+                                                                    <tr>
+                                                                      
+                                                                        <th>
+                                                                            @Html.DisplayNameFor(model => model.settingItem.itemName)
+                                                                        </th>
+                                                                        <th>
+                                                                            @Html.DisplayNameFor(model => model.qty)
+                                                                        </th>
+                                                                        <th>
+                                                                            @Html.DisplayNameFor(model => model.desc)
+                                                                        </th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                @{
+                                                                    var totalBill = 0;
+                                                                }
+
+
+                                                                @foreach (var order in Model)
+                                                                {
+                                                                    <tbody>
+                                                                        <tr>
+                                                                          
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => order.settingItem.itemName)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => order.qty)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => order.desc)
+                                                                            </td>
+                                                                            <td>
+                                                                                <a onclick="UpdateDetailData('@order.discardId', '@order.settingItem.itemName', '@order.qty','@order.desc')" data-toggle="modal"
+                                                                                   data-target="#UpdateMasterModal"><img style="width: 20px;" src="~/Img/Editicon.png" /></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                        }
+                                                                </table>
+                                                          
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="panel-body">
+                            <h3 style="color:red;">Empty!</h3>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function UpdateDetailData(discardId, itemName, qty,desc) {
+        $('#discardId').val(discardId);
+        $('#itemName').val(itemName);
+        $('#qty').val(qty);
+        $('#desc').val(desc);
+    }
+</script>
